@@ -1,0 +1,96 @@
+
+.breadcrumb_section {
+    padding: 8px 0;
+    position: relative;
+}
+
+.page-title h1 {
+    margin: 0;
+    text-transform: capitalize;
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 480px) {
+    .breadcrumb_section {
+        padding: 150px 0;
+    }
+
+    .page-title h1 {
+        font-size: 22px;
+    }
+}
+
+.blue_overlay_bg::before {
+    background-color: rgba(190, 12, 42, 0.8);
+    bottom: 0;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+/* <!-- About Us -->*/
+.heading_s1 {
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    position: relative;
+}
+
+.heading_s1::before {
+    background-color: rgba(190, 12, 42, 0.8);
+    bottom: 0;
+    content: "";
+    height: 3px;
+    left: 0;
+    position: absolute;
+    width: 48px;
+}
+
+.social_icons li,
+.contact_detail li {
+    display: inline-block;
+    padding: 2px 3px;
+}
+
+.list_none li {
+    list-style: none;
+}
+
+.border_social li a {
+    border: 1px solid #333;
+}
+
+.social_icons li a:hover,
+.social_icons.hover_style1 li a {
+    background-color: #000;
+    color: #fff;
+}
+
+.social_icons li a {
+    font-size: 18px;
+    height: 35px;
+    width: 35px;
+    line-height: 35px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    color: #000
+}
+
+/*    <!-- Vision Mission Section -->*/
+.heading_s14 {
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    position: relative;
+}
+
+.heading_s14::before {
+    background-color: rgba(190, 12, 42, 0.8);
+    bottom: 0;
+    content: "";
+    height: 3px;
+    left: 0;
+    position: absolute;
+    width: 165px;
+}

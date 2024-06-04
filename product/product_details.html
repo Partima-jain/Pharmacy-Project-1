@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details</title>
+  <style>
+    .card {
+        
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 20px;
+      margin: 20px auto;
+      text-align: center;
+      margin-top: 100px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      background-color: #fefefe;
+    }
+    .product-image {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 10px;
+      transition: transform 0.3s ease-in-out;
+    }
+    .product-image:hover {
+      transform: scale(1.1);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.9);
+    }
+    .modal-content {
+      margin: 100px auto;
+      padding: 20px;
+      width: 30%;
+      background-color: #fefefe;
+      border-radius: 5px;
+      position: relative;
+    }
+    .close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: #ccc;
+    }
+    #moreInfo{
+        align-items: center;
+        background-color: #d33737;
+        border: 0;
+        border-radius: 100px;
+        box-sizing: border-box;
+        color: #ffffff;
+        cursor: pointer;
+        display: inline-flex;
+        font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        justify-content: center;
+        line-height: 10px;
+        max-width: 480px;
+        min-height: 20px;
+        min-width: 0px;
+        overflow: hidden;
+        padding: 0px;
+        padding-left: 10px;
+        padding-right: 10px;
+        text-align: center;
+        touch-action: manipulation;
+        transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+        user-select: none;
+        -webkit-user-select: none;
+        vertical-align: middle;
+    }
+    #moreInfoBtn {
+        align-items: center;
+        background-color: #d33737;
+        border: 0;
+        border-radius: 100px;
+        box-sizing: border-box;
+        color: #ffffff;
+        cursor: pointer;
+        display: inline-flex;
+        font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        justify-content: center;
+        line-height: 20px;
+        max-width: 480px;
+        min-height: 40px;
+        min-width: 0px;
+        overflow: hidden;
+        padding: 0px;
+        padding-left: 20px;
+        padding-right: 20px;
+        text-align: center;
+        touch-action: manipulation;
+        transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+        user-select: none;
+        -webkit-user-select: none;
+        vertical-align: middle;
+    }
+
+    #moreInfoBtn:hover,
+    #moreInfoBtn:focus { 
+        background-color: #d33737;
+        color: #ffffff;
+    }
+
+    #moreInfoBtn:active {
+        background: #09223b;
+        color: rgb(255, 255, 255, .7);
+    }
+
+    #moreInfoBtn:disabled { 
+    cursor: not-allowed;
+    background: rgba(0, 0, 0, .08);
+    color: rgba(0, 0, 0, .3);
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="product-details">
+    <div class="card">
+        <div>
+            <img src="https://www.spectrasynth.com/public_html/images/storage/packages/e61b03be9a9dfbd31847f2ff9ad90374.png" alt="Product Image" class="product-image" id="productImage">
+        </div>
+      <p id="moreInfo">Impurities</p>
+      <p><span id="productTitle"></span></p>
+      <p>CNS Number: <span id="cnsNumber"></span></p>
+      <p>Product Number: <span id="productNumber"></span></p>
+      
+      <!-- Add more information here as needed -->
+      <button id="moreInfoBtn">More Info</button>
+    </div>
+  </div>
+
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <img src="" alt="Product Image" style="width:100%" id="modalImage">
+    </div>
+  </div>
+
+  <script>
+    // Retrieve product information from query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const cnsNumber = urlParams.get('cns');
+    const productNumber = urlParams.get('product');
+    const productTitle = urlParams.get('title');
+
+    // Update the DOM with the product information
+    document.getElementById('cnsNumber').textContent = cnsNumber;
+    document.getElementById('productNumber').textContent = productNumber;
+    document.getElementById('productTitle').textContent = productTitle;
+
+    // Get the modal
+    const modal = document.getElementById('myModal');
+
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    const img = document.getElementById('productImage');
+    const modalImg = modal.querySelector('img');
+
+    // Get the <span> element that closes the modal
+    const span = document.querySelector('.close');
+
+    // When the user clicks on the image, open the modal
+    img.onclick = function() {
+      modal.style.display = "block";
+      modalImg.src = this.src;
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    // Function to handle navigation to the next page
+    function navigateToNextPage() {
+      // Construct the URL with query parameters
+      const url = `product_more_info.html?title=${productTitle}&cns=${cnsNumber}&product=${productNumber}`;
+      // Navigate to the next page
+      window.location.href = url;
+    }
+
+    // Add event listener to the "More Info" button
+    document.getElementById('moreInfoBtn').addEventListener('click', navigateToNextPage);
+  </script>
+</body>
+</html>

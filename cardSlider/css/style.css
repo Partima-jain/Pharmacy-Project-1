@@ -1,0 +1,168 @@
+/* Google Fonts - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.swiper-section{
+  min-height: 70vh;
+  text-align: center; 
+  align-items: center;
+  background-color: #ffffff;
+  justify-content: center;
+}
+
+
+.swiper-section h1 {
+  color: black;
+  padding: 10px 20px;
+  font-size: 30px;
+  margin-bottom: 50px; /* Add some space below the heading */
+}
+
+.lines-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Added to horizontally center the content */
+}
+
+.line {
+  height: 1px;
+  width: 50px;
+  background-color: #54e4c0;
+  transition: width 0.3s ease;
+}
+
+.cart-icon {
+  width: 30px;
+  height: 30px;
+  margin: 0 10px;
+}
+
+.cart-icon i {
+  /* Add styles for the shopping cart icon */
+  font-size: 24px; /* Adjust as needed */
+}
+
+.lines-container:hover .line {
+  width: 100px;
+}
+
+
+  .container {
+    display: flex;
+    align-items: center;
+  }
+  
+
+
+.container {
+  display: flex;
+  max-width: 1400px;
+  width: 100%;
+  padding: 60px 60px;
+}
+ 
+  
+  
+.slide-container {
+  margin: 0 30px;
+  overflow: hidden;
+}
+.card {
+  background: #fff;
+  border: 1px solid #9e9b9b;
+  border-radius: 8px;
+}
+.card .image-box {
+  height: 150px;
+}
+.card .image-box img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px 8px 0 0;
+}
+.card .profile-details {
+  display: flex;
+  align-items: center;
+  column-gap: 12px;
+  padding: 15px;
+}
+.card .profile-details img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+.profile-details .name {
+  font-size: 15px;
+  font-weight: 500;
+}
+.profile-details .job {
+  font-size: 12px;
+  font-weight: 500;
+  color: #4d4d4d;
+}
+
+
+.name-job h3 {
+  margin-bottom: 10px; /* Adjust the value to increase or decrease the space */
+}
+
+.span-heading {
+  color: whitesmoke; 
+  font-weight: bold;
+  /* Adjust the color as needed */
+}
+.swiper-navBtn {
+  color: #f3ecec;
+  height: 50px;
+  width: 50px;
+  transform: translateY(-40%);
+  background: #e93030;
+  border-radius: 50%;
+}
+.swiper-navBtn::before,
+.swiper-navBtn::after {
+  font-size: 24px;
+}
+
+.swiper-pagination-bullet {
+  background-color: #c7bfbf;
+}
+
+
+.custom-button {
+  background-color: rgb(207, 57, 57);
+  color: white; /* Text color */
+  padding: 8px 16px; /* Adjust padding as needed */
+  border: 1px solid rgb(150, 35, 35);
+  border-radius: 20px; /* Rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s; /* Smooth transition */
+}
+
+/* Hover effect */
+.custom-button:hover span {
+  color: rgb(224, 221, 36); /* Change text color on hover */
+}
+
+
+.profile-details{
+  background-color: rgb(173, 175, 175);
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+
+@media screen and (max-width: 768px) {
+  .swiper-navBtn {
+    display: none;
+  }
+}

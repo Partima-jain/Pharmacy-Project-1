@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impurities</title>
+  
+  <style>
+    .container {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr); /* Four columns in each row */
+      gap: 20px; /* Gap between grid items */
+    }
+
+    .card {
+      width: 200px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      background-color: #fefefe;
+    }
+    .card:nth-child(4n + 1) {
+    grid-column: 2; /* Place the card in the second column */
+    }
+
+    /* Add right margin to the last column of each row */
+    .card:nth-child(4n) {
+    grid-column: 5; /* Place the card in the fifth column */
+    }
+    .product-image {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 10px;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .product-image:hover {
+      transform: scale(1.1);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.9);
+    }
+
+    .modal-content {
+      margin: 20px auto;
+      padding: 20px;
+      width: 30%;
+      background-color: #fefefe;
+      border-radius: 5px;
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #ccc;
+    }
+
+    .moreInfo {
+        align-items: center;
+        background-color: #d33737;
+        border: 0;
+        margin-left: 9%;
+        border-radius: 100px;
+        box-sizing: border-box;
+        color: #ffffff;
+        cursor: pointer;
+        display: inline-flex;
+        font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        justify-content: center;
+        line-height: 10px;
+        max-width: 480px;
+        min-height: 20px;
+        min-width: 0px;
+        overflow: hidden;
+        padding: 0px;
+        padding-left: 10px;
+        padding-right: 10px;
+        text-align: center;
+        touch-action: manipulation;
+        transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+        user-select: none;
+        -webkit-user-select: none;
+        vertical-align: middle;
+    }
+
+    .moreInfoBtn {
+      align-items: center;
+      background-color: #d33737;
+      border: 0;
+      border-radius: 100px;
+      box-sizing: border-box;
+      color: #ffffff;
+      cursor: pointer;
+      display: inline-flex;
+      font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      justify-content: center;
+      line-height: 20px;
+      max-width: 480px;
+      min-height: 40px;
+      min-width: 0px;
+      overflow: hidden;
+      padding: 0px;
+      padding-left: 20px;
+      padding-right: 20px;
+      text-align: center;
+      touch-action: manipulation;
+      transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+      user-select: none;
+      -webkit-user-select: none;
+      vertical-align: middle;
+    }
+
+    .moreInfoBtn:hover,
+    .moreInfoBtn:focus { 
+      background-color: #d33737;
+      color: #ffffff;
+    }
+
+    .moreInfoBtn:active {
+      background: #f91313;
+      color: rgb(255, 255, 255, .7);
+    }
+
+    .moreInfoBtn:disabled { 
+      cursor: not-allowed;
+      background: rgba(0, 0, 0, .08);
+      color: rgba(0, 0, 0, .3);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Content will be dynamically generated here -->
+  </div>
+
+  <div class="modal" id="myModal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <img src="" alt="Product Image" id="modalImage">
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.querySelector('.container');
+      const modal = document.getElementById('myModal');
+      const modalImage = document.getElementById('modalImage');
+  
+      // Fetch data from the API
+      fetch('http://localhost:3000/autocomplete')
+        .then(response => response.json())
+        .then(data => {
+          // Create cards for each product
+          data.forEach(product => {
+            const card = createCard(product);
+            container.appendChild(card);
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+  
+      // Function to create a card for a product
+      function createCard(product) {
+        const card = document.createElement('div');
+        card.classList.add('card');
+  
+        // Create card content
+        const productImage = document.createElement('img');
+        productImage.src = "https://www.spectrasynth.com/public_html/images/storage/packages/e61b03be9a9dfbd31847f2ff9ad90374.png";
+        productImage.alt = 'Product Image';
+        productImage.classList.add('product-image');
+  
+        const moreInfo = document.createElement('p');
+        moreInfo.textContent = 'Miscellaneous';
+        moreInfo.classList.add('moreInfo');
+  
+        const productTitle = document.createElement('p');
+        productTitle.textContent = `Product Name: ${product.value}`;
+  
+        const cnsNumber = document.createElement('p');
+        cnsNumber.textContent = `CNS Number: ${product.cas_no}`;
+  
+        const productNumber = document.createElement('p');
+        productNumber.textContent = `Product Number: ${product.id}`;
+  
+        const more_info_btn= document.createElement('button');
+        more_info_btn.textContent="More info";
+        more_info_btn.classList.add('moreInfoBtn');
+  
+        // Add click event listener to open modal when image is clicked
+        productImage.addEventListener('click', function() {
+          modalImage.src = product.image_url;
+          modal.style.display = 'block';
+        });
+  
+        // Add click event listener to "More Info" button
+        more_info_btn.addEventListener('click', function() {
+          navigateToNextPage(productTitle.textContent, cnsNumber.textContent, productNumber.textContent);
+        });
+  
+        // Append elements to the card
+        card.appendChild(productImage);
+        card.appendChild(moreInfo);
+        card.appendChild(productTitle);
+        card.appendChild(cnsNumber);
+        card.appendChild(productNumber);
+        card.appendChild(more_info_btn);
+  
+        return card;
+      }
+  
+      // Function to navigate to the next page
+      function navigateToNextPage(title, cns, product) {
+        // Construct the URL with query parameters
+        const url = `product_more_info.html?title=${title}&cns=${cns}&product=${product}`;
+        // Navigate to the next page
+        window.location.href = url;
+      }
+  
+      // Event listener to close the modal when the close button is clicked
+      modal.addEventListener('click', function(event) {
+        if (event.target && event.target.classList.contains('close')) {
+          modal.style.display = 'none';
+        }
+      });
+  
+      // Event listener to close the modal when user clicks outside the modal content
+      window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    });
+  </script>
+  
+</body>
+</html>
